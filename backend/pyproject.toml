@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "finllm-backend"
+version = "0.1.0"
+description = "Financial LLM RAG backend"
+authors = ["FinLLM Team"]
+python = "^3.12"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = ">=0.115"
+uvicorn = {extras = ["standard"], version = ">=0.30"}
+sqlalchemy = {extras = ["asyncio"], version = ">=2.0"}
+asyncpg = "*"
+alembic = "*"
+redis = {extras = ["hiredis"], version = ">=5.0"}
+chromadb = ">=0.5"
+openai = ">=1.30"
+anthropic = ">=0.28"
+python-jose = {extras = ["cryptography"], version = ">=3.3"}
+passlib = {extras = ["bcrypt"], version = ">=1.7"}
+python-multipart = "*"
+pydantic-settings = ">=2.0"
+aiofiles = "*"
+tiktoken = "*"
+pypdf2 = "*"
+python-docx = "*"
+httpx = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pytest-asyncio = "*"
+pytest-cov = "*"
+httpx = "*"
+ruff = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
