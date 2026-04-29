@@ -19,11 +19,13 @@ python-jose = {extras = ["cryptography"], version = ">=3.3"}
 passlib = {extras = ["bcrypt"], version = ">=1.7"}
 python-multipart = "*"
 pydantic-settings = ">=2.0"
+pydantic = {extras = ["email"], version = ">=2.0"}
 aiofiles = "*"
 tiktoken = "*"
 pypdf2 = "*"
 python-docx = "*"
 httpx = "*"
+email-validator = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"
