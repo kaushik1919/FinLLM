@@ -3,7 +3,6 @@ name = "finllm-backend"
 version = "0.1.0"
 description = "Financial LLM RAG backend"
 authors = ["FinLLM Team"]
-python = "^3.12"
 
 [tool.poetry.dependencies]
 python = "^3.12"
