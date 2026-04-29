@@ -1,3 +1,4 @@
+import json
 import uuid
 
 import chromadb
@@ -80,7 +81,6 @@ async def send_message(
     async def event_stream():
         async for chunk in stream_response(payload.content, chunks, history):
             yield chunk
-            import json
             try:
                 data = json.loads(chunk.removeprefix("data: ").strip())
                 if data.get("type") == "delta":

@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #0a0a0b;
+    color: #e8e8f0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background-color: rgba(79, 142, 255, 0.3);
+    color: #e8e8f0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a38;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a50;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply bg-bg-surface border border-border rounded-lg;
+  }
+
+  .panel-elevated {
+    @apply bg-bg-elevated border border-border rounded-lg;
+  }
+
+  .label-xs {
+    @apply text-2xs font-medium tracking-wider uppercase text-text-muted;
+  }
+
+  .mono {
+    @apply font-mono text-xs;
+  }
+
+  .prose-fin p {
+    @apply text-text-primary text-sm leading-relaxed mb-3;
+  }
+
+  .prose-fin strong {
+    @apply text-text-primary font-semibold;
+  }
+
+  .prose-fin code {
+    @apply font-mono text-xs bg-bg-elevated px-1.5 py-0.5 rounded text-accent;
+  }
+
+  .prose-fin pre {
+    @apply bg-bg-elevated border border-border rounded-lg p-4 overflow-x-auto my-3;
+  }
+
+  .prose-fin ul {
+    @apply list-disc list-inside space-y-1 text-sm text-text-primary mb-3;
+  }
+
+  .prose-fin ol {
+    @apply list-decimal list-inside space-y-1 text-sm text-text-primary mb-3;
+  }
+
+  .prose-fin h1,
+  .prose-fin h2,
+  .prose-fin h3 {
+    @apply font-semibold text-text-primary mb-2 mt-4;
+  }
+
+  .citation-inline {
+    @apply inline-flex items-center justify-center w-4 h-4 text-2xs font-mono
+           bg-citation-subtle text-citation rounded cursor-pointer
+           hover:bg-citation/20 transition-colors align-super ml-0.5;
+  }
+}

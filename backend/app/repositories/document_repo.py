@@ -28,8 +28,10 @@ class DocumentRepository:
         filename: str,
         file_path: str,
         file_size: int,
+        id: uuid.UUID | None = None,
     ) -> Document:
         doc = Document(
+            id=id or uuid.uuid4(),
             owner_id=owner_id,
             filename=filename,
             file_path=file_path,

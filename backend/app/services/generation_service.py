@@ -1,3 +1,4 @@
+import json
 from collections.abc import AsyncGenerator
 
 from anthropic import AsyncAnthropic
@@ -48,8 +49,6 @@ async def stream_response(
         }
         for c in chunks
     ]
-
-    import json
 
     yield f"data: {json.dumps({'type': 'sources', 'sources': sources})}\n\n"
 

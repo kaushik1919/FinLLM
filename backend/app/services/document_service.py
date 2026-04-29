@@ -1,4 +1,5 @@
 import io
+import logging
 import uuid
 from pathlib import Path
 
@@ -11,6 +12,8 @@ from app.config import settings
 from app.models.document import DocumentStatus
 from app.repositories.document_repo import DocumentRepository
 from app.services.embedding_service import chunk_text, embed_texts
+
+logger = logging.getLogger(__name__)
 
 try:
     import PyPDF2
@@ -48,22 +51,26 @@ async def upload_document(
     storage_root = Path(settings.storage_path) / str(owner_id)
     storage_root.mkdir(parents=True, exist_ok=True)
 
+    doc_id = uuid.uuid4()
+    safe_filename = file.filename or "upload"
+    disk_path = storage_root / f"{doc_id}_{safe_filename}"
+
     repo = DocumentRepository(db)
     doc = await repo.create(
+        id=doc_id,
         owner_id=owner_id,
-        filename=file.filename or "upload",
-        file_path="",
+        filename=safe_filename,
+        file_path=str(disk_path),
         file_size=len(data),
     )
 
-    file_path = storage_root / f"{doc.id}_{file.filename}"
-    async with aiofiles.open(file_path, "wb") as f:
+    async with aiofiles.open(disk_path, "wb") as f:
         await f.write(data)
 
     doc = await repo.update_status(doc.id, DocumentStatus.processing)
 
     try:
-        text = await _extract_text(file.filename or "", data)
+        text = await _extract_text(safe_filename, data)
         chunks = chunk_text(text, settings.chunk_size_tokens, settings.chunk_overlap_tokens)
         embeddings = await embed_texts(chunks)
 
@@ -73,7 +80,7 @@ async def upload_document(
             embeddings=embeddings,
             documents=chunks,
             metadatas=[
-                {"document_id": str(doc.id), "user_id": str(owner_id), "chunk_index": i, "filename": file.filename or ""}
+                {"document_id": str(doc.id), "user_id": str(owner_id), "chunk_index": i, "filename": safe_filename}
                 for i in range(len(chunks))
             ],
         )
@@ -103,7 +110,7 @@ async def delete_document(
         if ids:
             collection.delete(ids=ids)
     except Exception:
-        pass
+        logger.warning("Failed to delete ChromaDB chunks for document %s", document_id)
 
     file_path = Path(doc.file_path)
     if file_path.exists():
