@@ -2,11 +2,6 @@
 
 A production-grade Retrieval-Augmented Generation (RAG) system powered by Large Language Models for advanced financial analysis and document intelligence.
 
-[![Backend Tests](https://github.com/kaushik1919/FinLLM/actions/workflows/backend-tests.yml/badge.svg)](https://github.com/kaushik1919/FinLLM/actions/workflows/backend-tests.yml)
-[![Frontend Build](https://github.com/kaushik1919/FinLLM/actions/workflows/frontend-tests.yml/badge.svg)](https://github.com/kaushik1919/FinLLM/actions/workflows/frontend-tests.yml)
-[![Security Scan](https://github.com/kaushik1919/FinLLM/actions/workflows/security-scan.yml/badge.svg)](https://github.com/kaushik1919/FinLLM/actions/workflows/security-scan.yml)
-[![Docker Build](https://github.com/kaushik1919/FinLLM/actions/workflows/docker-build.yml/badge.svg)](https://github.com/kaushik1919/FinLLM/actions/workflows/docker-build.yml)
-
 ## Overview
 
 FinLLM is a sophisticated financial intelligence platform that combines modern LLM technology with semantic search capabilities to provide deep contextual understanding of financial documents. Built with a focus on scalability, security, and extensibility, it demonstrates mastery of distributed systems, cloud-native architectures, and AI/ML integration patterns.
