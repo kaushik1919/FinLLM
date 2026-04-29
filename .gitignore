@@ -1,0 +1,79 @@
+# Byte-compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# C extensions
+*.c
+*.so
+
+# Distribution
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+coverage.xml
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Node modules and build
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.next/
+out/
+build/
+dist/
+
+# Docker
+.docker-layer-cache
+
+# Alembic
+alembic/versions/__pycache__/
+
+# Application storage
+storage/
+uploads/
+
+# Poetry lock (allow for reproducibility in CI)
+# poetry.lock
+
+# System files
+.gitkeep
+*.log

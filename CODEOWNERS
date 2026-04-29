@@ -1,0 +1,24 @@
+# GitHub CODEOWNERS file
+# https://help.github.com/articles/about-codeowners/
+
+# These owners will be the default owners for everything in the repo
+# unless a later match takes precedence.
+* @kaushik1919
+
+# Backend code ownership
+backend/ @kaushik1919
+backend/app/ @kaushik1919
+backend/alembic/ @kaushik1919
+
+# Frontend code ownership
+frontend/ @kaushik1919
+frontend/src/ @kaushik1919
+
+# CI/CD ownership
+.github/ @kaushik1919
+docker-compose.yml @kaushik1919
+Dockerfile* @kaushik1919
+
+# Documentation
+README.md @kaushik1919
+docs/ @kaushik1919
