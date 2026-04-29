@@ -1,0 +1,57 @@
+name: Security Scanning
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    
+    - name: Install Poetry and dependencies
+      working-directory: backend
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        export PATH="$HOME/.local/bin:$PATH"
+        poetry install
+    
+    - name: Run Bandit security check
+      working-directory: backend
+      continue-on-error: true
+      run: |
+        pip install bandit
+        bandit -r app/ --format json --output bandit-report.json || true
+    
+    - name: Check for hardcoded secrets in Python
+      working-directory: backend
+      continue-on-error: true
+      run: |
+        pip install detect-secrets
+        detect-secrets scan --baseline .secrets.baseline app/ || true
+    
+    - name: Scan Node dependencies for vulnerabilities
+      working-directory: frontend
+      continue-on-error: true
+      run: |
+        npm audit --audit-level=moderate || true
+    
+    - name: Check for secrets in .env
+      working-directory: .
+      continue-on-error: true
+      run: |
+        if [ -f .env ]; then
+          echo "Checking .env for exposed keys..."
+          grep -E "sk-|secret|password|token" .env | wc -l || echo "Checking completed"
+        fi

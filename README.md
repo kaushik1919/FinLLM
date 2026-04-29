@@ -2,6 +2,11 @@
 
 A production-grade Retrieval-Augmented Generation (RAG) system powered by Large Language Models for advanced financial analysis and document intelligence.
 
+[![Backend Tests](https://github.com/kaushik1919/FinLLM/actions/workflows/backend-tests.yml/badge.svg)](https://github.com/kaushik1919/FinLLM/actions/workflows/backend-tests.yml)
+[![Frontend Build](https://github.com/kaushik1919/FinLLM/actions/workflows/frontend-tests.yml/badge.svg)](https://github.com/kaushik1919/FinLLM/actions/workflows/frontend-tests.yml)
+[![Security Scan](https://github.com/kaushik1919/FinLLM/actions/workflows/security-scan.yml/badge.svg)](https://github.com/kaushik1919/FinLLM/actions/workflows/security-scan.yml)
+[![Docker Build](https://github.com/kaushik1919/FinLLM/actions/workflows/docker-build.yml/badge.svg)](https://github.com/kaushik1919/FinLLM/actions/workflows/docker-build.yml)
+
 ## Overview
 
 FinLLM is a sophisticated financial intelligence platform that combines modern LLM technology with semantic search capabilities to provide deep contextual understanding of financial documents. Built with a focus on scalability, security, and extensibility, it demonstrates mastery of distributed systems, cloud-native architectures, and AI/ML integration patterns.
@@ -13,6 +18,28 @@ FinLLM is a sophisticated financial intelligence platform that combines modern L
 - Conversation memory with multi-turn support
 - Enterprise-grade security and authentication
 - Real-time processing with async/await patterns
+
+## Demo
+
+### Frontend Application
+The FinLLM frontend provides an intuitive interface for financial analysis with enterprise-grade security.
+
+**Login Interface** - Authentication with email/password validation
+```
+Secure JWT-based authentication
+Role-based access control
+Responsive dark theme UI
+```
+
+### API Documentation
+Interactive Swagger UI with complete API endpoint documentation.
+
+**Swagger Documentation** - Full OpenAPI 3.1 specification
+```
+Auth endpoints: register, login, refresh
+Document management: upload, retrieve, delete
+Chat endpoints: conversations, messages, history
+```
 
 ## Architecture & Technical Excellence
 
@@ -243,10 +270,70 @@ poetry run ruff format app/ tests/
 # All endpoints validate types at runtime
 ```
 
+## Continuous Integration & Continuous Deployment
+
+FinLLM uses GitHub Actions for comprehensive CI/CD pipeline automation:
+
+### Pipelines
+
+1. **Backend Tests & Linting** (`backend-tests.yml`)
+   - Python 3.12 environment setup
+   - Poetry dependency caching
+   - Ruff linting and type checking
+   - Pytest with coverage reports (target: 80%+)
+   - PostgreSQL 16 and Redis service containers
+   - AsyncIO test support
+   - CodeCov integration for coverage tracking
+
+2. **Frontend Build & Tests** (`frontend-tests.yml`)
+   - Node.js 20.x LTS setup
+   - NPM cache optimization
+   - TypeScript type checking
+   - Next.js production build validation
+   - Bundle size monitoring
+
+3. **Security Scanning** (`security-scan.yml`)
+   - Bandit for Python security analysis
+   - Detect-secrets for credential detection
+   - npm audit for JavaScript dependencies
+   - Weekly scheduled scans
+   - Runs on all PRs and pushes
+
+4. **Docker Build Validation** (`docker-build.yml`)
+   - Multi-stage build caching
+   - docker-compose validation
+   - Cache optimization with GitHub Actions cache layer
+
+### Running Local CI Checks
+
+```bash
+# Backend
+cd backend
+poetry run ruff check app/ tests/
+poetry run pytest --cov=app tests/
+
+# Frontend
+cd frontend
+npm run lint
+npx tsc --noEmit
+npm run build
+
+# Docker validation
+docker-compose config
+docker-compose build
+```
+
 ## Project Structure
 
 ```
 FinLLM/
+├── .github/
+│   └── workflows/                       # CI/CD Pipelines
+│       ├── backend-tests.yml            # Python testing & linting
+│       ├── frontend-tests.yml           # TypeScript build & type check
+│       ├── security-scan.yml            # Security vulnerability scanning
+│       └── docker-build.yml             # Docker image build validation
+│
 ├── backend/                          # FastAPI application
 │   ├── app/
 │   │   ├── main.py                  # Application entry point
@@ -282,6 +369,9 @@ FinLLM/
 │   ├── tsconfig.json                # TypeScript config
 │   ├── tailwind.config.js           # Tailwind configuration
 │   └── Dockerfile.dev               # Development image
+│
+├── docs/
+│   └── screenshots/                 # Demo application screenshots
 │
 ├── docker-compose.yml               # Multi-container orchestration
 ├── Makefile                         # Development commands

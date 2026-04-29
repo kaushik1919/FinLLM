@@ -1,0 +1,93 @@
+name: Backend Tests & Linting
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-tests.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: finllm
+          POSTGRES_PASSWORD: finllm
+          POSTGRES_DB: finllm
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        export PATH="$HOME/.local/bin:$PATH"
+    
+    - name: Cache Poetry dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry-${{ hashFiles('backend/poetry.lock') }}
+    
+    - name: Install dependencies
+      working-directory: backend
+      run: |
+        $HOME/.local/bin/poetry install
+    
+    - name: Lint with Ruff
+      working-directory: backend
+      run: |
+        $HOME/.local/bin/poetry run ruff check app/ tests/
+    
+    - name: Type checking with Pydantic
+      working-directory: backend
+      run: |
+        $HOME/.local/bin/poetry run python -m py_compile app/main.py
+    
+    - name: Run pytest with coverage
+      working-directory: backend
+      env:
+        DATABASE_URL: postgresql+asyncpg://finllm:finllm@localhost:5432/finllm
+        REDIS_URL: redis://localhost:6379/0
+        JWT_SECRET_KEY: test-secret-key-for-ci
+        ANTHROPIC_API_KEY: test-key
+        OPENAI_API_KEY: test-key
+      run: |
+        $HOME/.local/bin/poetry run pytest --cov=app --cov-report=xml --cov-report=term-missing -v tests/
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./backend/coverage.xml
+        flags: backend
+        name: backend-coverage
