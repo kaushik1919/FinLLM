@@ -19,8 +19,6 @@ async def test_list_documents_empty(client: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_upload_txt_document(client: AsyncClient, monkeypatch):
-    import app.services.document_service as ds
-
     async def mock_embed(texts):
         return [[0.0] * 10 for _ in texts]
 
