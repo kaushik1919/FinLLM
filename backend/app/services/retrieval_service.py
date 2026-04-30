@@ -12,6 +12,9 @@ async def retrieve_chunks(
     chroma: chromadb.HttpClient,
 ) -> list[dict]:
     query_embedding = await embed_query(query)
+    if not query_embedding:
+        return []
+
     collection = chroma.get_or_create_collection(settings.chroma_collection)
 
     results = collection.query(

@@ -74,16 +74,19 @@ async def upload_document(
         chunks = chunk_text(text, settings.chunk_size_tokens, settings.chunk_overlap_tokens)
         embeddings = await embed_texts(chunks)
 
-        collection = chroma.get_or_create_collection(settings.chroma_collection)
-        collection.upsert(
-            ids=[f"{doc.id}_{i}" for i in range(len(chunks))],
-            embeddings=embeddings,
-            documents=chunks,
-            metadatas=[
-                {"document_id": str(doc.id), "user_id": str(owner_id), "chunk_index": i, "filename": safe_filename}
-                for i in range(len(chunks))
-            ],
-        )
+        if embeddings and len(embeddings) == len(chunks):
+            collection = chroma.get_or_create_collection(settings.chroma_collection)
+            collection.upsert(
+                ids=[f"{doc.id}_{i}" for i in range(len(chunks))],
+                embeddings=embeddings,
+                documents=chunks,
+                metadatas=[
+                    {"document_id": str(doc.id), "user_id": str(owner_id), "chunk_index": i, "filename": safe_filename}
+                    for i in range(len(chunks))
+                ],
+            )
+        else:
+            logger.warning("Skipping Chroma indexing for %s because embeddings are unavailable", doc.id)
 
         doc = await repo.update_status(doc.id, DocumentStatus.ready, chunk_count=len(chunks))
     except Exception as exc:

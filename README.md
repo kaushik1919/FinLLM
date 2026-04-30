@@ -19,12 +19,24 @@ FinLLM is a sophisticated financial intelligence platform that combines modern L
 ### Frontend Application
 The FinLLM frontend provides an intuitive interface for financial analysis with enterprise-grade security.
 
+Demo access:
+- Email: `demo@gmail.com`
+- Password: `demo123`
+
 **Login Interface** - Authentication with email/password validation
 ```
 Secure JWT-based authentication
 Role-based access control
 Responsive dark theme UI
 ```
+
+![FinLLM Login Screen](docs/frontend-images/login.png)
+
+### Frontend Images
+
+![FinLLM Main Chat Screen](docs/frontend-images/main-chat.png)
+
+The main chat workspace shows the authenticated application shell, conversation list, and chat composer.
 
 ### API Documentation
 Interactive Swagger UI with complete API endpoint documentation.
@@ -35,6 +47,8 @@ Auth endpoints: register, login, refresh
 Document management: upload, retrieve, delete
 Chat endpoints: conversations, messages, history
 ```
+
+![FinLLM Swagger UI](docs/frontend-images/swagger.png)
 
 ## Architecture & Technical Excellence
 
@@ -366,7 +380,7 @@ FinLLM/
 │   └── Dockerfile.dev               # Development image
 │
 ├── docs/
-│   └── screenshots/                 # Demo application screenshots
+│   └── frontend-images/             # Demo application screenshots
 │
 ├── docker-compose.yml               # Multi-container orchestration
 ├── Makefile                         # Development commands

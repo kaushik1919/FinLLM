@@ -11,7 +11,6 @@ interface MessageItemProps {
 }
 
 export function MessageItem({ message, streamingContent, isStreaming, sources }: MessageItemProps) {
-  const isUser = message?.role === 'user' || (!message && false)
   const role = message?.role ?? 'assistant'
   const content = message?.content ?? streamingContent ?? ''
   const messageSources = message?.sources ?? sources ?? []

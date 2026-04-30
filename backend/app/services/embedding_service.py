@@ -34,11 +34,19 @@ def chunk_text(text: str, chunk_size: int, overlap: int) -> list[str]:
 
 
 async def embed_texts(texts: list[str]) -> list[list[float]]:
+    if not settings.openai_api_key or settings.openai_api_key.startswith("sk-..."):
+        return []
+
     client = _get_client()
-    response = await client.embeddings.create(input=texts, model=EMBEDDING_MODEL)
-    return [item.embedding for item in response.data]
+    try:
+        response = await client.embeddings.create(input=texts, model=EMBEDDING_MODEL)
+        return [item.embedding for item in response.data]
+    except Exception:
+        return []
 
 
 async def embed_query(text: str) -> list[float]:
     embeddings = await embed_texts([text])
-    return embeddings[0]
+    if embeddings:
+        return embeddings[0]
+    return []

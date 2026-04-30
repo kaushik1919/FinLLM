@@ -33,6 +33,13 @@ async def stream_response(
     history: list[dict],
 ) -> AsyncGenerator[str, None]:
     context = _build_context(chunks)
+
+    if not settings.anthropic_api_key or settings.anthropic_api_key.startswith("sk-ant-..."):
+        yield f"data: {json.dumps({'type': 'sources', 'sources': []})}\n\n"
+        yield f"data: {json.dumps({'type': 'delta', 'delta': 'Demo mode is active. Connect a real Anthropic API key to enable live answers.'})}\n\n"
+        yield "data: [DONE]\n\n"
+        return
+
     client = _get_client()
 
     messages = list(history)

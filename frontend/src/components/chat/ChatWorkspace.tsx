@@ -1,6 +1,5 @@
 ﻿'use client'
 
-import { useRef, useEffect } from 'react'
 import { TopBar } from '@/components/layout/TopBar'
 import { MessageList } from './MessageList'
 import { ChatInput } from './ChatInput'
